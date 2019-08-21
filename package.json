@@ -1,0 +1,18 @@
+{
+  "name": "rc-form-array",
+  "version": "0.0.1",
+  "description": "create rc-form array",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "rc-form",
+    "rc-form-array"
+  ],
+  "repository": {
+    "url": "https://github.com/frontlich/rc-form-array.git"
+  },
+  "author": "frontlich",
+  "license": "MIT"
+}
