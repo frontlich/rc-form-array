@@ -10,7 +10,7 @@ export class FormArray<T> {
   private _createKey = getCreateKeyFn();
 
   constructor(list: T[] = []) {
-    this._list = list.map(this.convert);
+    this._list = list.map(this.convert.bind(this));
   }
 
   private convert(item: T) {
@@ -35,7 +35,7 @@ export class FormArray<T> {
   }
 
   add(...newItems: T[]) {
-    this._list = [...this._list, ...newItems.map(this.convert)];
+    this._list = [...this._list, ...newItems.map(this.convert.bind(this))];
     return this;
   }
 
