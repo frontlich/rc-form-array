@@ -46,8 +46,12 @@ export class FormArray<T> {
 }
 
 export const createFormArray = <T>(list: T[], minLen = 1) => {
-  const restLen = minLen - list.length;
-  const restArr: T[] = Array.from({ length: restLen < 0 ? 0 : restLen });
 
-  return new FormArray([...ensureArray(list), ...restArr]);
+  const restLen = minLen - list.length;
+
+  return new FormArray(
+    restLen > 0 ?
+      [...ensureArray(list), ...Array(restLen)] :
+      ensureArray(list)
+  );
 }

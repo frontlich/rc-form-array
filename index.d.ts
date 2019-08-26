@@ -13,5 +13,5 @@ export declare class FormArray<T> {
     add(...newItems: T[]): this;
     delete(...keys: number[]): this;
 }
-export declare const createFormArray: <T>(list: T[], minLen?: number) => FormArray<T>;
+export declare const createFormArray: <T>(list: T[], minLen?: number) => FormArray<any>;
 //# sourceMappingURL=index.d.ts.map

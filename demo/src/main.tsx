@@ -53,7 +53,7 @@ class FormDemo extends Component<FormComponentProps> {
     const { form: { validateFieldsAndScroll } } = this.props;
 
     validateFieldsAndScroll((err, value) => {
-      if (err) { return message.warn('请检测表单中的错误'); }
+      if (err) { return message.warn('请检查表单中的错误'); }
 
       const submitData = {
         ...value,
