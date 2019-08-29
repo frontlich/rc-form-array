@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import { render } from 'react-dom';
 import {
   ConfigProvider, Form, Row, Col,
@@ -41,7 +41,7 @@ const mockStudents: Student[] = [
   { name: '小强', birthday: '2013-10-13', gender: GENDER.MALE }
 ];
 
-class FormDemo extends Component<FormComponentProps> {
+class FormDemo extends PureComponent<FormComponentProps> {
 
   state = {
     students: createFormArray(mockStudents),
@@ -82,14 +82,14 @@ class FormDemo extends Component<FormComponentProps> {
           <Card title='学生列表'>
             <Form>
               {
-                students.render((item, key) => {
+                students.render((student, key) => {
                   return (
                     <Row key={key} gutter={20}>
                       <Col span={8}>
                         <Form.Item label='姓名' {...formLayout}>
                           {
                             getFieldDecorator(`students[${key}].name`, {
-                              initialValue: item.name,
+                              initialValue: student.name,
                               rules: [
                                 { required: true, whitespace: true, message: '请填写姓名' },
                                 { pattern: /^[\u2E80-\u9FFF·\s]+$/, message: '姓名不合法' }
@@ -102,7 +102,7 @@ class FormDemo extends Component<FormComponentProps> {
                         <Form.Item label='出生日期' {...formLayout}>
                           {
                             getFieldDecorator(`students[${key}].birthday`, {
-                              initialValue: item.birthday ? moment(item.birthday) : undefined
+                              initialValue: student.birthday ? moment(student.birthday) : undefined
                             })(
                               <DatePicker defaultPickerValue={DEFAULT_BIRTH_YEAR} />
                             )
@@ -113,7 +113,7 @@ class FormDemo extends Component<FormComponentProps> {
                         <Form.Item label='性别' {...formLayout}>
                           {
                             getFieldDecorator(`students[${key}].gender`, {
-                              initialValue: item.gender || 1
+                              initialValue: student.gender || 1
                             })(
                               <Radio.Group>
                                 <Radio value={GENDER.MALE}>男</Radio>

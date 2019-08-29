@@ -4,54 +4,72 @@ const getCreateKeyFn = () => { let i = 0; return () => i++ };
 /** 确保是数组 */
 const ensureArray = <T>(arr: T[]): T[] => arr instanceof Array ? arr : [];
 
+const cloneFormArray = <T>(formArray: FormArray<T>) => {
+  const fa = new FormArray<T>();
+  fa.createKey = formArray.createKey;
+  return fa;
+};
+
 export class FormArray<T> {
 
-  private _list: Array<{ key: number; value: T; }>;
-  private _createKey = getCreateKeyFn();
+  _list: Array<{ key: number; value: T; }>;
+  createKey = getCreateKeyFn();
 
   constructor(list: T[] = []) {
     this._list = list.map(this.convert);
   }
 
   private convert = (item: T) => {
-    return { key: this._createKey(), value: item }
+    return { key: this.createKey(), value: item }
   }
 
   get list() {
-    return this._list;
+    return this._list.map(v => v.value);
   }
 
   get length() {
     return this._list.length;
   }
 
-  render(fn: (value: T, key: number) => any) {
-    return this._list.map(({ key, value }) => fn(value, key));
+  render(fn: (value: T, key: number, index: number) => any) {
+    return this._list.map(({ key, value }, index) => fn(value, key, index));
   }
 
-  map(fn: (value: T) => any) {
-    this._list = this._list.map(({ key, value }) => ({ key, value: fn(value) }));
-    return this;
+  map<N>(fn: (value: T) => N): FormArray<N> {
+    const fa = new FormArray<N>();
+    fa.createKey = this.createKey;
+
+    fa._list = this._list.map(({ key, value }) => ({ key, value: fn(value) }));
+
+    return fa;
   }
 
-  add(...newItems: T[]) {
-    this._list = [...this._list, ...newItems.map(this.convert)];
-    return this;
+  add(...newItems: T[]): FormArray<T> {
+    const fa = cloneFormArray(this);
+
+    fa._list = [...this._list, ...newItems.map(this.convert)];
+
+    return fa;
   }
 
-  delete(...keys: number[]) {
-    this._list = this._list.filter(item => !keys.some(key => key === item.key));
-    return this;
+  delete(...keys: number[]): FormArray<T> {
+    const fa = cloneFormArray(this);
+
+    fa._list = this._list.filter(item => !keys.some(key => key === item.key));
+
+    return fa;
   }
 }
 
-export const createFormArray = <T>(list: T[], minLen = 1) => {
+export const createFormArray = <T>(list: T[], minLen = 0) => {
 
-  const restLen = minLen - list.length;
+  const arr = ensureArray(list);
+
+  const restLen = minLen - arr.length;
 
   return new FormArray(
     restLen > 0 ?
-      [...ensureArray(list), ...Array(restLen)] :
-      ensureArray(list)
+      [...arr, ...Array.from({ length: restLen }) as T[]] :
+      arr
   );
 }

@@ -1,17 +1,17 @@
 export declare class FormArray<T> {
-    private _list;
-    private _createKey;
-    constructor(list?: T[]);
-    private convert;
-    readonly list: {
+    _list: Array<{
         key: number;
         value: T;
-    }[];
+    }>;
+    createKey: () => number;
+    constructor(list?: T[]);
+    private convert;
+    readonly list: T[];
     readonly length: number;
-    render(fn: (value: T, key: number) => any): any[];
-    map(fn: (value: T) => any): this;
-    add(...newItems: T[]): this;
-    delete(...keys: number[]): this;
+    render(fn: (value: T, key: number, index: number) => any): any[];
+    map<N>(fn: (value: T) => N): FormArray<N>;
+    add(...newItems: T[]): FormArray<T>;
+    delete(...keys: number[]): FormArray<T>;
 }
-export declare const createFormArray: <T>(list: T[], minLen?: number) => FormArray<any>;
+export declare const createFormArray: <T>(list: T[], minLen?: number) => FormArray<T>;
 //# sourceMappingURL=index.d.ts.map
