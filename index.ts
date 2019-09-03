@@ -4,6 +4,7 @@ const getCreateKeyFn = () => { let i = 0; return () => i++ };
 /** 确保是数组 */
 const ensureArray = <T>(arr: T[]): T[] => arr instanceof Array ? arr : [];
 
+/** 克隆新的对象是为了在PureComponent中执行render */
 const cloneFormArray = <T>(formArray: FormArray<T>) => {
   const fa = new FormArray<T>();
   fa.createKey = formArray.createKey;
@@ -40,6 +41,18 @@ export class FormArray<T> {
     fa.createKey = this.createKey;
 
     fa._list = this._list.map(({ key, value }) => ({ key, value: fn(value) }));
+
+    return fa;
+  }
+
+  get(key: number) {
+    return this._list.find(v => v.key === key);
+  }
+
+  set(key: number, item: T): FormArray<T> {
+    const fa = cloneFormArray(this);
+
+    fa._list = this._list.map(v => v.key === key ? { key, value: item } : v);
 
     return fa;
   }
