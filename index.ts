@@ -1,4 +1,4 @@
-/** 创建自增key */
+/** 获取创建自增key的方法 */
 const getCreateKeyFn = () => { let i = 0; return () => i++ };
 
 /** 确保是数组 */
@@ -14,6 +14,8 @@ const cloneFormArray = <T>(formArray: FormArray<T>) => {
 export class FormArray<T> {
 
   _list: Array<{ key: number; value: T; }>;
+
+  /** 创建自增key */
   createKey = getCreateKeyFn();
 
   constructor(list: T[] = []) {
@@ -50,10 +52,18 @@ export class FormArray<T> {
     return item && item.value;
   }
 
-  set(key: number, item: T): FormArray<T> {
+  set(key: number, item: T): FormArray<T>;
+  set(key: number, fn: (item: T) => T): FormArray<T>;
+  set(key: number, param: any): FormArray<T> {
     const fa = cloneFormArray(this);
 
-    fa._list = this._list.map(v => v.key === key ? { key, value: item } : v);
+    fa._list = this._list.map(v => {
+      if (v.key === key) {
+        return typeof param === 'function' ? param(v) : { key, value: param };
+      } else {
+        return v;
+      }
+    });
 
     return fa;
   }
@@ -75,6 +85,11 @@ export class FormArray<T> {
   }
 }
 
+/**
+ * 创建表单数组对象
+ * @param list 表单数据列表
+ * @param minLen 表单项最小个数
+ */
 export const createFormArray = <T>(list: T[], minLen = 0) => {
 
   const arr = ensureArray(list);
