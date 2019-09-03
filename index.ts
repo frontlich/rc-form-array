@@ -46,7 +46,8 @@ export class FormArray<T> {
   }
 
   get(key: number) {
-    return this._list.find(v => v.key === key);
+    const item = this._list.find(v => v.key === key);
+    return item && item.value;
   }
 
   set(key: number, item: T): FormArray<T> {

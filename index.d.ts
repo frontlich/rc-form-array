@@ -10,6 +10,8 @@ export declare class FormArray<T> {
     readonly length: number;
     render(fn: (value: T, key: number, index: number) => any): any[];
     map<N>(fn: (value: T) => N): FormArray<N>;
+    get(key: number): T | undefined;
+    set(key: number, item: T): FormArray<T>;
     add(...newItems: T[]): FormArray<T>;
     delete(...keys: number[]): FormArray<T>;
 }

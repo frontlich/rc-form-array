@@ -1,13 +1,14 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import { render } from 'react-dom';
 import {
   ConfigProvider, Form, Row, Col,
   Input, Button, Icon, Card,
   Tooltip, DatePicker, Radio, message
 } from 'antd';
-import { FormComponentProps } from 'antd/es/form';
+import { FormComponentProps } from 'antd/lib/form';
 import zh_CN from 'antd/lib/locale-provider/zh_CN';
 import moment from 'moment';
+import 'moment/locale/zh-cn';
 
 import { createFormArray } from '../../index';
 
@@ -29,10 +30,10 @@ const formLayout = {
   }
 }
 
-interface Student {
-  name?: string;
-  birthday?: string;
-  gender?: number;
+class Student {
+  name: string;
+  birthday: string;
+  gender: number;
 }
 
 const mockStudents: Student[] = [
@@ -146,7 +147,7 @@ class FormDemo extends PureComponent<FormComponentProps> {
             <Button type='link'
               onClick={() => {
                 this.setState({
-                  students: students.add({})
+                  students: students.add(new Student())
                 })
               }}>添加学生</Button>
 

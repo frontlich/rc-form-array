@@ -1,6 +1,6 @@
 {
   "name": "rc-form-array",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "create rc-form array",
   "main": "index.js",
   "scripts": {
