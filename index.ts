@@ -57,13 +57,13 @@ export class FormArray<T> {
   set(key: number, param: any): FormArray<T> {
     const fa = cloneFormArray(this);
 
-    fa._list = this._list.map(v => {
-      if (v.key === key) {
-        return typeof param === 'function' ? param(v) : { key, value: param };
-      } else {
-        return v;
-      }
-    });
+    fa._list = this._list.map(v => v.key === key ?
+      {
+        key,
+        value: typeof param === 'function' ? param(v) : param
+      } :
+      v
+    );
 
     return fa;
   }
