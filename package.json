@@ -1,14 +1,14 @@
 {
   "name": "rc-form-array",
-  "version": "0.0.9",
+  "version": "1.0.0",
   "description": "create rc-form array",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "prepublish": "tsc"
   },
   "keywords": [
     "rc-form",
+    "ant-design",
     "rc-form-array"
   ],
   "repository": {

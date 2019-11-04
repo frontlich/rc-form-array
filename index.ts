@@ -83,6 +83,30 @@ export class FormArray<T> {
 
     return fa;
   }
+
+  /** 
+   * 根据数组中key的顺序排序
+   * @param keys 表单项的key按自定义顺序组成的数组
+   */
+  sortByKeys(keys: number[]): FormArray<T> {
+    const fa = cloneFormArray(this);
+
+    const sortedArr: Array<{ key: number, value: T }> = [];
+
+    for (const key of keys) {
+      this._list = this._list.reduce(
+        (arr, c) => {
+          (c.key === key ? sortedArr : arr).push(c);
+          return arr;
+        },
+        [] as Array<{ key: number, value: T }>
+      );
+    }
+
+    fa._list = [...sortedArr, ...this._list];
+
+    return fa;
+  }
 }
 
 /**

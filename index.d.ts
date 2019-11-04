@@ -16,6 +16,7 @@ export declare class FormArray<T> {
     set(key: number, fn: (item: T) => T): FormArray<T>;
     add(...newItems: T[]): FormArray<T>;
     delete(...keys: number[]): FormArray<T>;
+    sortByKeys(keys: number[]): FormArray<T>;
 }
 /**
  * 创建表单数组对象

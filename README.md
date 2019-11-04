@@ -9,31 +9,35 @@
   
   `createFormArray<T>(list: T[], minLen = 0)`
   
-  示例：`const fa = createFormArray([]);`
+  示例：`this.state = { students: createFormArray([]) };`
 
 ## 新增
   
   `add(...newItems: T[]): FormArray<T>`
 
-  示例：`fa.add({ name: 'xiaoming' })`
+  示例：`this.setState({ students: students.add({ name: 'xiaoming', age: 18 }) });`
   
 ## 删除
 
   `delete(...keys: number[]): FormArray<T>`
 
-  示例：`fa.delete(key)`
+  示例：`this.setState({ students: students.delete(0) });`
 
 ## 获取
 
   `get(key: number): T`
 
-  示例：`fa.get(0)`
+  示例：`students.get(0)`
 
 ## 更新
 
   `set(key: number, item: T): FormArray<T>`
 
-  示例：`fa.set(0, { name: 'xiaohong' })`
+  `set(key: number, fn: (item: T) => T): FormArray<T>`
+
+  示例：`this.setState({ students: students.set(0, { name: 'xiaohong', age: 18 }) });`
+
+  `this.setState({ students: students.set(0, (student) => ({ ...student, name: 'xiaohong' })) });`
 
 ## 渲染
 
@@ -41,7 +45,7 @@
 
   示例：
   ````
-  fa.render((item, key, index) => 
+  students.render((item, key, index) => 
     getFieldDecorator(`students[${key}].name`, {
       initialValue: item && item.name
     })(
