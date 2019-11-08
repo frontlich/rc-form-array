@@ -34,6 +34,10 @@ export class FormArray<T> {
     return this._list.length;
   }
 
+  get keys() {
+    return this._list.map(({ key }) => key);
+  }
+
   render(fn: (value: T, key: number, index: number) => any) {
     return this._list.map(({ key, value }, index) => fn(value, key, index));
   }
